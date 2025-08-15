@@ -59,31 +59,39 @@ public class Main {
                         " " + c20 + " | " + c21 + " | " + c22 + " ";
         return board;
     }
+
+    public static int coordToIndex(int x, int y) {
+        return x + y * 3;
+    }
+
+    public static String getOwner(int x, int y) {
+        return recs[coordToIndex(x, y)].owner;
+    }
+
+    public static <T> boolean threeEqual(T a, T b, T c) {
+        return a != null && a.equals(b) && b.equals(c);
+    }
+
     public static boolean check(){
-        if ((recs[0].owner == recs[1].owner) && (recs[1].owner == recs[2].owner)){
+        int index;
+
+        //vertical lines
+        for (int y = 0; y < 3; y++)
+            if (threeEqual(getOwner(0, y), getOwner(1, y), getOwner(2, y)))
+                return true;
+
+        //horizontal lines
+        for (int x = 0; x < 3; x++)
+            if (threeEqual(getOwner(x, 0), getOwner(x, 1), getOwner(x, 2)))
+                return true;
+
+        //diagonal
+        if (threeEqual(getOwner(0, 0), getOwner(1, 1), getOwner(2, 2)))
             return true;
-        }
-        else if ((recs[3].owner == recs[4].owner) && (recs[4].owner == recs[5].owner)) {
+
+        //anti-diagonal
+        if (threeEqual(getOwner(2, 0), getOwner(1, 1), getOwner(0, 2)))
             return true;
-        }
-        else if ((recs[6].owner == recs[7].owner) && (recs[7].owner == recs[8].owner)){
-            return true;
-        }
-        if ((recs[0].owner == recs[3].owner) && (recs[3].owner == recs[6].owner)){
-            return true;
-        }
-        else if ((recs[1].owner == recs[4].owner) && (recs[4].owner == recs[7].owner)) {
-            return true;
-        }
-        else if ((recs[2].owner == recs[5].owner) && (recs[5].owner == recs[8].owner)){
-            return true;
-        }
-        else if ((recs[0].owner == recs[4].owner) && (recs[4].owner == recs[8].owner)) {
-            return true;
-        }
-        else if ((recs[2].owner == recs[4].owner) && (recs[4].owner == recs[6].owner)){
-            return true;
-        }
 
         return false;
     }
